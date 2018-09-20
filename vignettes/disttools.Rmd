@@ -1,0 +1,45 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Functions that determine the distances between objects typically return either an object of class 'dist' or a matrix. When a matrix is returned, there is wasted memory because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a 'dist' object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Accessing the distance between any two data points therefore requires either coercing the 'dist' object to a matrix using *as.matrix*. or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large 'dist' objects the former may not be feasible. The package *disttools* provides a simple interface for accessing the distances contained within a distance matrix without the memory overhead of *as.matrix* coercion.
+
+
+The function *get_dists* allows distances to be accessed for different pairs of points in two ways, demonstrated below.
+```{r}
+# Load the package.
+library(disttools)
+
+# Create some data to play with.
+mat <- matrix(rnorm(10), ncol = 2)
+mat_dists <- dist(mat)
+indices <- matrix(c(1,2,3,2,4,4), ncol = 2, byrow = TRUE)
+
+# Retrieve distances using the matrix-based method.
+get_dists(mat_dists, indices)
+```
+
+
+Alternatively, the data can be accessed using a pair of vectors.
+```{r}
+# Create vectors i and j from the above data.
+i <- indices[,1]
+j <- indices[,2]
+
+# Retrieve distances using the paired vectors method.
+get_dists(mat_dists, i, j)
+```
