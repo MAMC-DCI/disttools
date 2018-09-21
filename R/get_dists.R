@@ -5,8 +5,14 @@
 #' that are paired with the corresponding indices in j.
 #' @param j A vector of indices where each element forms a pair with the
 #' corresponding element in argument i.
+#' @param parallel Logical indicating whether the operation should be
+#' parallelized.
 #'
 #' @return A vector giving the distances between the provided indices.
+
+#' @importFrom Rfast sort_mat
+#' @importFrom assertthat is.flag
+#'
 #' @export
 #'
 #' @examples
@@ -14,9 +20,12 @@
 #' test_dists <- dist(test)
 #' indices <- matrix(sample(1:8),ncol=2)
 #' get_dists(test_dists, indices)
-get_dists <- function(x, i, j = NULL){
+get_dists <- function(x, i, j = NULL, parallel = TRUE){
   # Determine whether j was supplied.
   j_supplied <- !is.null(j)
+
+  # Assert that parallel is a logical.
+  is.flag(parallel)
 
   # Check that x is a dist object.
   if(
@@ -83,9 +92,9 @@ get_dists <- function(x, i, j = NULL){
   }
 
   # Get the min and max values for each index combination.
-  i <- apply(i, 1, sort)
-  s <- i[1,]
-  b <- i[2,]
+  i <- sort_mat(i, by.row = TRUE, parallel = parallel)
+  s <- i[,1]
+  b <- i[,2]
 
   # Determine the indices to retrieve.
   linear_index <- 0.5*size*(size-1)-0.5*(size-s)*(size-s-1)-(size-b)

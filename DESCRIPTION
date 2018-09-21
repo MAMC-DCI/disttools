@@ -8,6 +8,8 @@ Description: Extracting subsets of data from dist objects can be challenging. Ex
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: Rfast,
+    assertthat
 Suggests: covr,
     testthat,
     knitr,
