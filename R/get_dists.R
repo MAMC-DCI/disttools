@@ -1,7 +1,8 @@
 #' Retrieve distances of an elment i,j from a 'dist' object.
 #'
 #' @param x An object of class 'dist'.
-#' @param i A two column matrix of integer indices or a vector of indices.
+#' @param i Either a two column matrix of integer indices, a vector of indices
+#' that are paired with the corresponding indices in j.
 #' @param j A vector of indices where each element forms a pair with the
 #' corresponding element in argument i.
 #'
@@ -15,7 +16,7 @@
 #' get_dists(test_dists, indices)
 get_dists <- function(x, i, j = NULL){
   # Determine whether j was supplied.
-  j_supplied <- is.null(j)
+  j_supplied <- !is.null(j)
 
   # Check that x is a dist object.
   if(

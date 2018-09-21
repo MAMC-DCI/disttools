@@ -10,11 +10,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Vignette Author" />
+<meta name="author" content="Zachary Colburn" />
 
-<meta name="date" content="2018-09-20" />
+<meta name="date" content="2018-09-21" />
 
-<title>Vignette Title</title>
+<title>disttools</title>
 
 
 
@@ -68,9 +68,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Vignette Title</h1>
-<h4 class="author"><em>Vignette Author</em></h4>
-<h4 class="date"><em>2018-09-20</em></h4>
+<h1 class="title toc-ignore">disttools</h1>
+<h4 class="author"><em>Zachary Colburn</em></h4>
+<h4 class="date"><em>2018-09-21</em></h4>
 
 
 
@@ -86,7 +86,7 @@ indices &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class
 
 <span class="co"># Retrieve distances using the matrix-based method.</span>
 <span class="kw">get_dists</span>(mat_dists, indices)
-<span class="co">#&gt; [1] 2.6395472 0.6008355 0.0000000</span></code></pre></div>
+<span class="co">#&gt; [1] 1.752703 1.012510 0.000000</span></code></pre></div>
 <p>Alternatively, the data can be accessed using a pair of vectors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create vectors i and j from the above data.</span>
 i &lt;-<span class="st"> </span>indices[,<span class="dv">1</span>]
@@ -94,7 +94,7 @@ j &lt;-<span class="st"> </span>indices[,<span class="dv">2</span>]
 
 <span class="co"># Retrieve distances using the paired vectors method.</span>
 <span class="kw">get_dists</span>(mat_dists, i, j)
-<span class="co">#&gt; [1] 2.6395472 0.6008355 0.0000000</span></code></pre></div>
+<span class="co">#&gt; [1] 1.752703 1.012510 0.000000</span></code></pre></div>
 
 
 

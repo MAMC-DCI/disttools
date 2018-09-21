@@ -9,7 +9,8 @@ get_dists(x, i, j = NULL)
 \arguments{
 \item{x}{An object of class 'dist'.}
 
-\item{i}{A two column matrix of integer indices or a vector of indices.}
+\item{i}{Either a two column matrix of integer indices, a vector of indices
+that are paired with the corresponding indices in j.}
 
 \item{j}{A vector of indices where each element forms a pair with the
 corresponding element in argument i.}
