@@ -9,9 +9,6 @@
 #' parallelized.
 #'
 #' @return A vector giving the distances between the provided indices.
-
-#' @importFrom Rfast sort_mat
-#' @importFrom assertthat is.flag
 #'
 #' @export
 #'
@@ -25,7 +22,8 @@ get_dists <- function(x, i, j = NULL, parallel = TRUE){
   j_supplied <- !is.null(j)
 
   # Assert that parallel is a logical.
-  is.flag(parallel)
+  if(is.null(parallel)){parallel <- FALSE}
+  parallel <- as.logical(parallel)[1]
 
   # Check that x is a dist object.
   if(
@@ -91,10 +89,17 @@ get_dists <- function(x, i, j = NULL, parallel = TRUE){
     }
   }
 
-  # Get the min and max values for each index combination.
-  i <- sort_mat(i, by.row = TRUE, parallel = parallel)
-  s <- i[,1]
-  b <- i[,2]
+  # Sort the indices within each row.
+  left_smaller <- i[,1] < i[,2]
+
+  s <- numeric(nrow(i))
+  b <- s
+
+  s[left_smaller] <- i[left_smaller,1]
+  s[!left_smaller] <- i[!left_smaller,2]
+
+  b[left_smaller] <- i[left_smaller,2]
+  b[!left_smaller] <- i[!left_smaller,1]
 
   # Determine the indices to retrieve.
   linear_index <- 0.5*size*(size-1)-0.5*(size-s)*(size-s-1)-(size-b)
