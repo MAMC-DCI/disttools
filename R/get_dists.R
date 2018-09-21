@@ -123,6 +123,7 @@ get_dists <- function(x, i, j = NULL, parallel = TRUE, return_indices = FALSE){
   # Create the final output.
   if(return_indices){
     output <- matrix(c(s,b,output), ncol = 3)
+    colnames(output) <- c("Small_Index","Large_Index","Distance")
   }
 
   # Return the values.
