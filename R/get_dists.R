@@ -7,6 +7,10 @@
 #' corresponding element in argument i.
 #' @param parallel Logical indicating whether the operation should be
 #' parallelized.
+#' @param return_indices Logical indicating whether a three column matrix
+#' containing the provided indices (columns 1 and 2) and their corresponding
+#' distances (column 3) should be returned. A vector of the distances only is
+#' returned if this argument is FALSE.
 #'
 #' @return A vector giving the distances between the provided indices.
 #'
@@ -17,13 +21,18 @@
 #' test_dists <- dist(test)
 #' indices <- matrix(sample(1:8),ncol=2)
 #' get_dists(test_dists, indices)
-get_dists <- function(x, i, j = NULL, parallel = TRUE){
+get_dists <- function(x, i, j = NULL, parallel = TRUE, return_indices = FALSE){
   # Determine whether j was supplied.
   j_supplied <- !is.null(j)
 
   # Assert that parallel is a logical.
   if(is.null(parallel)){parallel <- FALSE}
   parallel <- as.logical(parallel)[1]
+  if(is.na(parallel)){stop("parallel cannot be NA.")}
+
+  if(is.null(return_indices)){return_indices <- FALSE}
+  return_indices <- as.logical(return_indices)[1]
+  if(is.na(return_indices)){stop("return_indices cannot be NA.")}
 
   # Check that x is a dist object.
   if(
@@ -91,15 +100,16 @@ get_dists <- function(x, i, j = NULL, parallel = TRUE){
 
   # Sort the indices within each row.
   left_smaller <- i[,1] < i[,2]
+  right_smaller <- !left_smaller
 
   s <- numeric(nrow(i))
   b <- s
 
   s[left_smaller] <- i[left_smaller,1]
-  s[!left_smaller] <- i[!left_smaller,2]
+  s[right_smaller] <- i[right_smaller,2]
 
   b[left_smaller] <- i[left_smaller,2]
-  b[!left_smaller] <- i[!left_smaller,1]
+  b[right_smaller] <- i[right_smaller,1]
 
   # Determine the indices to retrieve.
   linear_index <- 0.5*size*(size-1)-0.5*(size-s)*(size-s-1)-(size-b)
@@ -109,6 +119,11 @@ get_dists <- function(x, i, j = NULL, parallel = TRUE){
   linear_index[s == b] <- NA
   output <- x[linear_index]
   output[is.na(output)] <- 0
+
+  # Create the final output.
+  if(return_indices){
+    output <- matrix(c(s,b,output), ncol = 3)
+  }
 
   # Return the values.
   return(output)

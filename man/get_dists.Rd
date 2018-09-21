@@ -4,7 +4,7 @@
 \alias{get_dists}
 \title{Retrieve distances of an elment i,j from a 'dist' object.}
 \usage{
-get_dists(x, i, j = NULL, parallel = TRUE)
+get_dists(x, i, j = NULL, parallel = TRUE, return_indices = FALSE)
 }
 \arguments{
 \item{x}{An object of class 'dist'.}
@@ -17,6 +17,11 @@ corresponding element in argument i.}
 
 \item{parallel}{Logical indicating whether the operation should be
 parallelized.}
+
+\item{return_indices}{Logical indicating whether a three column matrix
+containing the provided indices (columns 1 and 2) and their corresponding
+distances (column 3) should be returned. A vector of the distances only is
+returned if this argument is FALSE.}
 }
 \value{
 A vector giving the distances between the provided indices.

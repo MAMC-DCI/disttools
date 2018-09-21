@@ -1,7 +1,7 @@
 Package: disttools
 Type: Package
 Title: Distance Object Manipulation Tools
-Version: 0.1.1
+Version: 0.1.2
 Author: Zachary Colburn
 Maintainer: Zachary Colburn <zcolburn@gmail.com>
 Description: Extracting subsets of data from dist objects can be challenging. Existing functionality makes it possible to extract individual distances using the one dimensional index corresponding to a pair of observations. Alternatively, a dist object can be coerced into a matrix. However, this doubles the amount of memory required for storage. 'disttools' provides convenient methods for accessing the data in dist objects without increasing memory or computational overhead.
