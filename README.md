@@ -6,23 +6,22 @@ Improved methods for handling dist objects.
 [![Travis-CI Build Status](https://travis-ci.org/zcolburn/disttools.svg?branch=master)](https://travis-ci.org/zcolburn/disttools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/zcolburn/disttools?branch=master&svg=true)](https://ci.appveyor.com/project/zcolburn/disttools)
 [![Coverage Status](https://img.shields.io/codecov/c/github/zcolburn/disttools/master.svg)](https://codecov.io/github/zcolburn/disttools?branch=master)
+[![](https://cranlogs.r-pkg.org/badges/disttools)](https://cran.r-project.org/package=disttools)
 
 
 ## Objective
-Functions that determine the distances between objects typically return either an object of class ‘dist’ or a matrix. When a matrix is returned, there is wasted memory because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a ‘dist’ object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Accessing the distance between any two data points therefore requires either coercing the ‘dist’ object to a matrix using *as.matrix*. or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large ‘dist’ objects the former may not be feasible. The package *disttools* provides a simple interface for accessing the distances contained within a distance matrix without the memory overhead of *as.matrix* coercion.
+Working with 'dist' objects in R can be challenging. Specifically, retrieving the distance between any two points is a challenge because values in 'dist' objects can only be accessed using a 1 dimensional index. To avoid this problem, the function *as.matrix* can be used to convert a 'dist' object into a matrix. Once converted, distances can be accessed in the same way any element of a matrix is accessed. However, *as.matrix* conversion more than doubles memory usage. For small 'dist' objects this may not be a problem. For large 'dist' objects this can be quite problematic. The function *get_dists* in *disttools* solves this problem by facilitating rapid retrieval of the distance between any pair of points.
 
-
-The function *get_dists* in this package is the workhorse of this operation.
 
 ## Installation
-The latest version of *disttools* can be installed by executing the following.
+*disttools* can be installed from CRAN or GitHub by executing either of the following:
 ```r
+# Install from CRAN.
+install.packages("disttools")
+
 # Install from GitHub.
 install.packages("devtools")
 devtools::install_github("zcolburn/disttools")
-
-# Install from CRAN.
-install.packages("disttools")
 ```
 
 

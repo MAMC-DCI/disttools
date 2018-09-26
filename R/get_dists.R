@@ -5,12 +5,10 @@
 #' that are paired with the corresponding indices in j.
 #' @param j A vector of indices where each element forms a pair with the
 #' corresponding element in argument i.
-#' @param parallel Logical indicating whether the operation should be
-#' parallelized.
 #' @param return_indices Logical indicating whether a three column matrix
 #' containing the provided indices (columns 1 and 2) and their corresponding
-#' distances (column 3) should be returned. A vector of the distances only is
-#' returned if this argument is FALSE.
+#' distances (column 3) should be returned. The default behavior is to return
+#' a vector of distances.
 #'
 #' @return A vector giving the distances between the provided indices.
 #'
@@ -21,14 +19,9 @@
 #' test_dists <- dist(test)
 #' indices <- matrix(sample(1:8),ncol=2)
 #' get_dists(test_dists, indices)
-get_dists <- function(x, i, j = NULL, parallel = TRUE, return_indices = FALSE){
+get_dists <- function(x, i, j = NULL, return_indices = FALSE){
   # Determine whether j was supplied.
   j_supplied <- !is.null(j)
-
-  # Assert that parallel is a logical.
-  if(is.null(parallel)){parallel <- FALSE}
-  parallel <- as.logical(parallel)[1]
-  if(is.na(parallel)){stop("parallel cannot be NA.")}
 
   if(is.null(return_indices)){return_indices <- FALSE}
   return_indices <- as.logical(return_indices)[1]

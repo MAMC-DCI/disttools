@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zachary Colburn" />
 
-<meta name="date" content="2018-09-21" />
+<meta name="date" content="2018-09-26" />
 
 <title>disttools</title>
 
@@ -70,23 +70,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">disttools</h1>
 <h4 class="author"><em>Zachary Colburn</em></h4>
-<h4 class="date"><em>2018-09-21</em></h4>
+<h4 class="date"><em>2018-09-26</em></h4>
 
 
 
-<p>Functions that determine the distances between objects typically return either an object of class ‘dist’ or a matrix. When a matrix is returned, there is wasted memory because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a ‘dist’ object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Accessing the distance between any two data points therefore requires either coercing the ‘dist’ object to a matrix using <em>as.matrix</em>. or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large ‘dist’ objects the former may not be feasible. The package <em>disttools</em> provides a simple interface for accessing the distances contained within a distance matrix without the memory overhead of <em>as.matrix</em> coercion.</p>
-<p>The function <em>get_dists</em> allows distances to be accessed for different pairs of points in two ways, demonstrated below.</p>
+<p>Functions that determine the distances between objects typically return either an object of class ‘dist’ or a matrix. When a matrix is returned, memory is wasted because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a ‘dist’ object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Retrieving the distance between any two data points therefore requires either coercing the ‘dist’ object to a matrix using <em>as.matrix</em> or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large ‘dist’ objects the former may not be feasible, thus the package <em>disttools</em> takes the latter approach, providing a simple interface for accessing the distances stored in ‘dist’ objects.</p>
+<p>The function <em>get_dists</em> allows distances to be accessed for different pairs of points in several ways, demonstrated below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the package.</span>
 <span class="kw">library</span>(disttools)
 
 <span class="co"># Create some data to play with.</span>
 mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)
 mat_dists &lt;-<span class="st"> </span><span class="kw">dist</span>(mat)
-indices &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># Retrieve distances using the matrix-based method.</span>
+indices &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Distances can be accessed using a two column matrix of index pairs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Retrieve distances using the matrix-based method.</span>
 <span class="kw">get_dists</span>(mat_dists, indices)
-<span class="co">#&gt; [1] 1.752703 1.012510 0.000000</span></code></pre></div>
+<span class="co">#&gt; [1] 2.700760 3.374049 0.000000</span></code></pre></div>
+<p>This approach is particularly useful when the distances between all pairs of only a subset of indices are desired.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a matrix of unique index pairs.</span>
+index_pairs &lt;-<span class="st"> </span><span class="kw">combn</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>)
+index_pairs &lt;-<span class="st"> </span><span class="kw">t</span>(index_pairs) <span class="co"># Transpose to put the data in tall format.</span>
+
+<span class="co"># Retrieve the distances as above.</span>
+<span class="kw">get_dists</span>(mat_dists, index_pairs)
+<span class="co">#&gt; [1] 2.700760 3.213950 3.374049</span></code></pre></div>
 <p>Alternatively, the data can be accessed using a pair of vectors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create vectors i and j from the above data.</span>
 i &lt;-<span class="st"> </span>indices[,<span class="dv">1</span>]
@@ -94,7 +102,7 @@ j &lt;-<span class="st"> </span>indices[,<span class="dv">2</span>]
 
 <span class="co"># Retrieve distances using the paired vectors method.</span>
 <span class="kw">get_dists</span>(mat_dists, i, j)
-<span class="co">#&gt; [1] 1.752703 1.012510 0.000000</span></code></pre></div>
+<span class="co">#&gt; [1] 2.700760 3.374049 0.000000</span></code></pre></div>
 
 
 
