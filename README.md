@@ -3,9 +3,9 @@ Improved methods for handling dist objects.
 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/disttools)](https://cran.r-project.org/package=disttools)
-[![Travis-CI Build Status](https://travis-ci.org/zcolburn/disttools.svg?branch=master)](https://travis-ci.org/zcolburn/disttools)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/zcolburn/disttools?branch=master&svg=true)](https://ci.appveyor.com/project/zcolburn/disttools)
-[![Coverage Status](https://img.shields.io/codecov/c/github/zcolburn/disttools/master.svg)](https://codecov.io/github/zcolburn/disttools?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/mamc-dci/disttools.svg?branch=master)](https://travis-ci.org/mamc-dci/disttools)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mamc-dci/disttools?branch=master&svg=true)](https://ci.appveyor.com/project/mamc-dci/disttools)
+[![Coverage Status](https://img.shields.io/codecov/c/github/mamc-dci/disttools/master.svg)](https://codecov.io/github/mamc-dci/disttools?branch=master)
 [![](https://cranlogs.r-pkg.org/badges/disttools)](https://cran.r-project.org/package=disttools)
 
 
