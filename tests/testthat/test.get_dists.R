@@ -27,6 +27,26 @@ test_that(
       get_dists(test_dists, indices)
     })
 
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      get_dists(test_dists, NULL)
+    })
+
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      get_dists(test_dists, indices, return_indices = NULL)
+    })
+
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      get_dists(test_dists, indices, return_indices = "banana")
+    })
+
     # When j is used.
     expect_error({
       test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
@@ -90,6 +110,33 @@ test_that(
       j[1] <- 100
       get_dists(test_dists, i, j)
     })
+
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      i <- indices[,1]
+      j <- indices[,2]
+      get_dists(test_dists, i, j, return_indices = NULL)
+    })
+
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      i <- indices[,1]
+      j <- indices[,2]
+      get_dists(test_dists, i, j, return_indices = "banana")
+    })
+
+    expect_error({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      i <- indices[,1]
+      j <- indices[,2]
+      get_dists(test_dists, i, c(j, 1))
+    })
   }
 )
 
@@ -111,6 +158,20 @@ test_that(
       all(get_dists(test_dists, indices) == 0)
     })
 
+    expect_silent({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      get_dists(test_dists, indices, return_indices = TRUE)
+    })
+
+    expect_silent({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      get_dists(test_dists, indices, return_indices = FALSE)
+    })
+
     # When j is used.
     expect_true({
       test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
@@ -130,6 +191,24 @@ test_that(
       i <- indices[,1]
       j <- indices[,2]
       all(get_dists(test_dists, i, j) == test_dists[c(1,15)])
+    })
+
+    expect_silent({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      i <- indices[,1]
+      j <- indices[,2]
+      get_dists(test_dists, i, j, return_indices = TRUE)
+    })
+
+    expect_silent({
+      test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+      test_dists <- dist(test)
+      indices <- matrix(c(1,2,3,2), ncol = 2, byrow = TRUE)
+      i <- indices[,1]
+      j <- indices[,2]
+      get_dists(test_dists, i, j, return_indices = FALSE)
     })
   }
 )

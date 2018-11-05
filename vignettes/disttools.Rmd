@@ -4,7 +4,7 @@ author: "Zachary Colburn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{disttools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,32 +16,63 @@ knitr::opts_chunk$set(
 )
 ```
 
-Functions that determine the distances between objects typically return either an object of class 'dist' or a matrix. When a matrix is returned, memory is wasted because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a 'dist' object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Retrieving the distance between any two data points therefore requires either coercing the 'dist' object to a matrix using *as.matrix* or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large 'dist' objects the former may not be feasible, thus the package *disttools* takes the latter approach, providing a simple interface for accessing the distances stored in 'dist' objects.
+
+## Overview
+*disttools* provides the functionality needed to rapidly and intuitively retrieve information from large 'dist' objects. This functionality is encoded in the *get_dists* function. The function's main use cases are outlined below.
 
 
-The function *get_dists* allows distances to be accessed for different pairs of points in several ways, demonstrated below.
-```{r}
+## Usage
+After installing the package, it can be loaded by executing:
+```r
 # Load the package.
 library(disttools)
-
-# Create some data to play with.
-mat <- matrix(rnorm(10), ncol = 2)
-mat_dists <- dist(mat)
-indices <- matrix(c(1,2,3,2,4,4), ncol = 2, byrow = TRUE)
 ```
 
 
-Distances can be accessed using a two column matrix of index pairs.
-```{r}
+Below, some example data is randomly generated.
+```r
+# Create some data to play with.
+set.seed(123456789)
+mat <- matrix(rnorm(10), ncol = 2)
+```
+
+
+A 'dist' object can be generated for these points by executing:
+```r
+# Generate a 'dist' object.
+mat_dists <- dist(mat)
+```
+
+
+Below, a set of pairs of points are specified for distance retrieval.
+```r
+# Specify index pairs of interest.
+indices <- matrix(c(1,2,3,2,4,4), ncol = 2, byrow = TRUE)
+```
+
+### Example 1 - Matrix-based retrieval
+The function *get_dists* can be used to access the distance between pairs of points. This can be accomplished via two methods. First, a matrix of index pairs can be passed to the function along with the 'dist' object itself.
+```r
 # Retrieve distances using the matrix-based method.
 get_dists(mat_dists, indices)
 ```
 
+### Example 2 - Vector-based retrieval
+Second, two vectors corresponding to the columns of the index matrix can be passed to the function along with the 'dist' object.
+```r
+# Create vectors i and j from the above data.
+i <- indices[,1]
+j <- indices[,2]
 
-This approach is particularly useful when the distances between all pairs of only a subset of indices are desired.
-```{r}
+# Retrieve distances using the paired vectors method.
+get_dists(mat_dists, i, j)
+```
+
+### Example 3 - Distance retrieval for all combinations of a subset of points
+Sometimes, the distances for all combinations of a set of points are desired. This information can be easily extracted by executing the following:
+```r
 # Create a matrix of unique index pairs.
-index_pairs <- combn(1:3, 2)
+index_pairs <- combn(1:3, 2) # Generate the combinations
 index_pairs <- t(index_pairs) # Transpose to put the data in tall format.
 
 # Retrieve the distances as above.
@@ -49,12 +80,9 @@ get_dists(mat_dists, index_pairs)
 ```
 
 
-Alternatively, the data can be accessed using a pair of vectors.
-```{r}
-# Create vectors i and j from the above data.
-i <- indices[,1]
-j <- indices[,2]
-
-# Retrieve distances using the paired vectors method.
-get_dists(mat_dists, i, j)
+### Example 4 - Return both indices and distances
+It is often desirable to create a *matrix* or *data.frame* composed of two columns that indicate the indices being compared and a third column giving the distances between those indices. For convenience, the argument *return_indices* can be set to *TRUE*. Doing so results in a three column matrix being returned. It can be converted into a *data.frame* using the function *as.data.frame*.
+```r
+# Retrieve distances using the matrix-based method.
+get_dists(mat_dists, indices, return_indices = TRUE)
 ```

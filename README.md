@@ -1,5 +1,5 @@
 # disttools
-Improved methods for handling dist objects.
+Improved methods for handling 'dist' objects in R.
 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/disttools)](https://cran.r-project.org/package=disttools)
@@ -9,8 +9,8 @@ Improved methods for handling dist objects.
 [![](https://cranlogs.r-pkg.org/badges/disttools)](https://cran.r-project.org/package=disttools)
 
 
-## Objective
-Working with 'dist' objects in R can be challenging. Specifically, retrieving the distance between any two points is a challenge because values in 'dist' objects can only be accessed using a 1 dimensional index. To avoid this problem, the function *as.matrix* can be used to convert a 'dist' object into a matrix. Once converted, distances can be accessed in the same way any element of a matrix is accessed. However, *as.matrix* conversion more than doubles memory usage. For small 'dist' objects this may not be a problem. For large 'dist' objects this can be quite problematic. The function *get_dists* in *disttools* solves this problem by facilitating rapid retrieval of the distance between any pair of points.
+## Overview
+Working with 'dist' objects in R can be challenging. What makes it challenging is that retrieving the distance between any two points requires specifying a 1 dimensional index. This is non-intuitive and requires the user to write additional code, which slows development and analysis. To avoid this problem, the function *as.matrix* has typically been used to convert a 'dist' object into a matrix. Once converted, distances can be accessed in the same way any element of a matrix is accessed, namely using two indices. Unfortunately, *as.matrix* conversion more than doubles memory usage. For small 'dist' objects this may not be a problem. However, for large 'dist' objects this can be quite problematic. The function *get_dists* in *disttools* solves this problem by facilitating rapid retrieval of the distance between any pair of points stored in a 'dist' object.
 
 
 ## Installation
@@ -18,7 +18,10 @@ Working with 'dist' objects in R can be challenging. Specifically, retrieving th
 ```r
 # Install from CRAN.
 install.packages("disttools")
+```
 
+
+```r
 # Install from GitHub.
 install.packages("devtools")
 devtools::install_github("zcolburn/disttools")
@@ -26,27 +29,23 @@ devtools::install_github("zcolburn/disttools")
 
 
 ## Usage
-The function *get_dists* allows distances to be accessed for different pairs of points in two ways, demonstrated below.
-```{r}
+The package can be loaded by executing:
+```r
 # Load the package.
 library(disttools)
-
-# Create some data to play with.
-mat <- matrix(rnorm(10), ncol = 2)
-mat_dists <- dist(mat)
-indices <- matrix(c(1,2,3,2,4,4), ncol = 2, byrow = TRUE)
-
-# Retrieve distances using the matrix-based method.
-get_dists(mat_dists, indices)
 ```
 
 
-Alternatively, the data can be accessed using a pair of vectors.
-```{r}
-# Create vectors i and j from the above data.
-i <- indices[,1]
-j <- indices[,2]
-
-# Retrieve distances using the paired vectors method.
-get_dists(mat_dists, i, j)
+The help file for the function *get_dists* can be accessed by executing:
+```r
+?get_dists
 ```
+
+
+If installed, the package vignette, complete with examples, can be viewed by executing:
+```r
+browseVignettes("disttools")
+```
+
+
+Alternatively, the vignette is available on the package's CRAN page: [https://CRAN.R-project.org/package=disttools](https://CRAN.R-project.org/package=disttools)

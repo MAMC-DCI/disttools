@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zachary Colburn" />
 
-<meta name="date" content="2018-09-26" />
+<meta name="date" content="2018-10-12" />
 
 <title>disttools</title>
 
@@ -70,39 +70,62 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">disttools</h1>
 <h4 class="author"><em>Zachary Colburn</em></h4>
-<h4 class="date"><em>2018-09-26</em></h4>
+<h4 class="date"><em>2018-10-12</em></h4>
 
 
 
-<p>Functions that determine the distances between objects typically return either an object of class ‘dist’ or a matrix. When a matrix is returned, memory is wasted because a distance matrix is symmetric across the diagonal (top left to bottom right). On the other hand, a ‘dist’ object, while more memory efficient, is inconvenient because its distance information can only be accessed using a one dimensional index. Retrieving the distance between any two data points therefore requires either coercing the ‘dist’ object to a matrix using <em>as.matrix</em> or calculating the one dimensional index that corresponds to the two data points of interest. When working with very large ‘dist’ objects the former may not be feasible, thus the package <em>disttools</em> takes the latter approach, providing a simple interface for accessing the distances stored in ‘dist’ objects.</p>
-<p>The function <em>get_dists</em> allows distances to be accessed for different pairs of points in several ways, demonstrated below.</p>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p><em>disttools</em> provides the functionality needed to rapidly and intuitively retrieve information from large ‘dist’ objects. This functionality is encoded in the <em>get_dists</em> function. The function’s main use cases are outlined below.</p>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<p>After installing the package, it can be loaded by executing:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the package.</span>
-<span class="kw">library</span>(disttools)
-
-<span class="co"># Create some data to play with.</span>
-mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)
-mat_dists &lt;-<span class="st"> </span><span class="kw">dist</span>(mat)
+<span class="kw">library</span>(disttools)</code></pre></div>
+<p>Below, some example data is randomly generated.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create some data to play with.</span>
+<span class="kw">set.seed</span>(<span class="dv">123456789</span>)
+mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<p>A ‘dist’ object can be generated for these points by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Generate a 'dist' object.</span>
+mat_dists &lt;-<span class="st"> </span><span class="kw">dist</span>(mat)</code></pre></div>
+<p>Below, a set of pairs of points are specified for distance retrieval.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Specify index pairs of interest.</span>
 indices &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p>Distances can be accessed using a two column matrix of index pairs.</p>
+<div id="example-1---matrix-based-retrieval" class="section level3">
+<h3>Example 1 - Matrix-based retrieval</h3>
+<p>The function <em>get_dists</em> can be used to access the distance between pairs of points. This can be accomplished via two methods. First, a matrix of index pairs can be passed to the function along with the ‘dist’ object itself.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Retrieve distances using the matrix-based method.</span>
-<span class="kw">get_dists</span>(mat_dists, indices)
-<span class="co">#&gt; [1] 2.700760 3.374049 0.000000</span></code></pre></div>
-<p>This approach is particularly useful when the distances between all pairs of only a subset of indices are desired.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a matrix of unique index pairs.</span>
-index_pairs &lt;-<span class="st"> </span><span class="kw">combn</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>)
-index_pairs &lt;-<span class="st"> </span><span class="kw">t</span>(index_pairs) <span class="co"># Transpose to put the data in tall format.</span>
-
-<span class="co"># Retrieve the distances as above.</span>
-<span class="kw">get_dists</span>(mat_dists, index_pairs)
-<span class="co">#&gt; [1] 2.700760 3.213950 3.374049</span></code></pre></div>
-<p>Alternatively, the data can be accessed using a pair of vectors.</p>
+<span class="kw">get_dists</span>(mat_dists, indices)</code></pre></div>
+</div>
+<div id="example-2---vector-based-retrieval" class="section level3">
+<h3>Example 2 - Vector-based retrieval</h3>
+<p>Second, two vectors corresponding to the columns of the index matrix can be passed to the function along with the ‘dist’ object.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create vectors i and j from the above data.</span>
 i &lt;-<span class="st"> </span>indices[,<span class="dv">1</span>]
 j &lt;-<span class="st"> </span>indices[,<span class="dv">2</span>]
 
 <span class="co"># Retrieve distances using the paired vectors method.</span>
-<span class="kw">get_dists</span>(mat_dists, i, j)
-<span class="co">#&gt; [1] 2.700760 3.374049 0.000000</span></code></pre></div>
+<span class="kw">get_dists</span>(mat_dists, i, j)</code></pre></div>
+</div>
+<div id="example-3---distance-retrieval-for-all-combinations-of-a-subset-of-points" class="section level3">
+<h3>Example 3 - Distance retrieval for all combinations of a subset of points</h3>
+<p>Sometimes, the distances for all combinations of a set of points are desired. This information can be easily extracted by executing the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a matrix of unique index pairs.</span>
+index_pairs &lt;-<span class="st"> </span><span class="kw">combn</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>) <span class="co"># Generate the combinations</span>
+index_pairs &lt;-<span class="st"> </span><span class="kw">t</span>(index_pairs) <span class="co"># Transpose to put the data in tall format.</span>
+
+<span class="co"># Retrieve the distances as above.</span>
+<span class="kw">get_dists</span>(mat_dists, index_pairs)</code></pre></div>
+</div>
+<div id="example-4---return-both-indices-and-distances" class="section level3">
+<h3>Example 4 - Return both indices and distances</h3>
+<p>It is often desirable to create a <em>matrix</em> or <em>data.frame</em> composed of two columns that indicate the indices being compared and a third column giving the distances between those indices. For convenience, the argument <em>return_indices</em> can be set to <em>TRUE</em>. Doing so results in a three column matrix being returned. It can be converted into a <em>data.frame</em> using the function <em>as.data.frame</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Retrieve distances using the matrix-based method.</span>
+<span class="kw">get_dists</span>(mat_dists, indices, <span class="dt">return_indices =</span> <span class="ot">TRUE</span>)</code></pre></div>
+</div>
+</div>
 
 
 
