@@ -1,8 +1,8 @@
-#' Retrieve distances of an elment i,j from a 'dist' object.
+#' Retrieve the distances between i and j from a 'dist' object.
 #'
 #' @param x An object of class 'dist'.
-#' @param i Either a two column matrix of integer indices, a vector of indices
-#' that are paired with the corresponding indices in j.
+#' @param i Either a two column matrix of integer indices or a vector of
+#' indices that are paired with the corresponding elements in j.
 #' @param j A vector of indices where each element forms a pair with the
 #' corresponding element in argument i.
 #' @param return_indices Logical indicating whether a three column matrix
@@ -15,15 +15,17 @@
 #' @export
 #'
 #' @examples
-#' test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+#' test <- matrix(rnorm(20), ncol = 2)
 #' test_dists <- dist(test)
 #' indices <- matrix(sample(1:8),ncol=2)
 #' get_dists(test_dists, indices)
 get_dists <- function(x, i, j = NULL, return_indices = FALSE){
-  # Determine whether j was supplied.
+  # Determine whether j was supplied or not.
   j_supplied <- !is.null(j)
 
-  if(is.null(return_indices)){return_indices <- FALSE}
+  if(is.null(return_indices)){
+    stop("return_indices must be TRUE or FALSE.")
+  }
   return_indices <- as.logical(return_indices)[1]
   if(is.na(return_indices)){stop("return_indices cannot be NA.")}
 

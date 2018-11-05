@@ -2,15 +2,15 @@
 % Please edit documentation in R/get_dists.R
 \name{get_dists}
 \alias{get_dists}
-\title{Retrieve distances of an elment i,j from a 'dist' object.}
+\title{Retrieve the distances between i and j from a 'dist' object.}
 \usage{
 get_dists(x, i, j = NULL, return_indices = FALSE)
 }
 \arguments{
 \item{x}{An object of class 'dist'.}
 
-\item{i}{Either a two column matrix of integer indices, a vector of indices
-that are paired with the corresponding indices in j.}
+\item{i}{Either a two column matrix of integer indices or a vector of
+indices that are paired with the corresponding elements in j.}
 
 \item{j}{A vector of indices where each element forms a pair with the
 corresponding element in argument i.}
@@ -24,10 +24,10 @@ a vector of distances.}
 A vector giving the distances between the provided indices.
 }
 \description{
-Retrieve distances of an elment i,j from a 'dist' object.
+Retrieve the distances between i and j from a 'dist' object.
 }
 \examples{
-test <- matrix(c(rnorm(10), rnorm(10)-5, rnorm(10)+5), ncol = 2)
+test <- matrix(rnorm(20), ncol = 2)
 test_dists <- dist(test)
 indices <- matrix(sample(1:8),ncol=2)
 get_dists(test_dists, indices)
