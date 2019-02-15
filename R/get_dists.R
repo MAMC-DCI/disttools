@@ -77,7 +77,7 @@ get_dists <- function(x, i, j = NULL, return_indices = FALSE){
       (
         (class(i) == "matrix") &&
         ((class(i[1]) == "numeric") || (class(i[1]) == "integer")) &&
-        (as.integer(i) == i) &&
+        all(as.integer(i) == i) &&
         all((i >= 1) & (i <= size))
       )
     )
