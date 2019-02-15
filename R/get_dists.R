@@ -55,7 +55,7 @@ get_dists <- function(x, i, j = NULL, return_indices = FALSE){
         (length(class(i)) == 1) && (length(class(j)) == 1) &&
         ((class(i) == "numeric") || (class(i) == "integer")) &&
         ((class(j) == "numeric") || (class(j) == "integer")) &&
-        (as.integer(i) == i) && (as.integer(j) == j) &&
+        all(as.integer(i) == i) && all(as.integer(j) == j) &&
         (length(i) == length(j))
       )
     ){
