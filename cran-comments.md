@@ -1,9 +1,9 @@
 ## Test environments
-* local OS X install (Windows 10, 64-bit), R 3.5.1
-* ubuntu 12.04 (on travis-ci), devel and release with gcc or clang compiler
-* win-builder (devel and release)
-* osx (on travis-ci), R 3.5.1
-* appveyor (release), R 3.5.1
+* local OS X install (Windows 10, 64-bit), R 3.4.2
+* osx (on travis-ci), R release
+* ubuntu 14.04 (on travis-ci), R devel and release with gcc or clang compilers
+* Windows 64-bit (on appveyor), R release
+* win-builder (R devel and release)
 
 ## R CMD check results
 
