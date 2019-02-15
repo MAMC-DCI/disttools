@@ -3,10 +3,9 @@ Improved methods for handling 'dist' objects in R.
 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/disttools)](https://cran.r-project.org/package=disttools)
-[![Travis-CI Build Status](https://travis-ci.org/mamc-dci/disttools.svg?branch=master)](https://travis-ci.org/mamc-dci/disttools)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mamc-dci/disttools?branch=master&svg=true)](https://ci.appveyor.com/project/mamc-dci/disttools)
+[![Travis-CI Build Status](https://travis-ci.org/MAMC-DCI/disttools.svg?branch=master)](https://travis-ci.org/MAMC-DCI/disttools#)
+<!-- [![Build status](https://ci.appveyor.com/api/projects/status/rmci2ek7qdsshrsu?svg=true)](https://ci.appveyor.com/project/mamcdci/disttools) -->
 [![Coverage Status](https://img.shields.io/codecov/c/github/mamc-dci/disttools/master.svg)](https://codecov.io/github/mamc-dci/disttools?branch=master)
-[![](https://cranlogs.r-pkg.org/badges/disttools)](https://cran.r-project.org/package=disttools)
 
 
 ## Overview
@@ -24,7 +23,7 @@ install.packages("disttools")
 ```r
 # Install from GitHub.
 install.packages("devtools")
-devtools::install_github("zcolburn/disttools")
+devtools::install_github("mamc-dci/disttools")
 ```
 
 
@@ -49,3 +48,7 @@ browseVignettes("disttools")
 
 
 Alternatively, the vignette is available on the package's CRAN page: [https://CRAN.R-project.org/package=disttools](https://CRAN.R-project.org/package=disttools)
+
+
+## Disclaimer
+The views expressed are those of the author(s) and do not reflect the official policy of the Department of the Army, the Department of Defense or the U.S. Government.
