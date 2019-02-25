@@ -1,6 +1,6 @@
-# disttools 0.1.6
+# disttools 0.1.7
 
-* Added a `NEWS.md` file to track changes to the package.
+* Updated DESCRIPTION based on CRAN team comments.
 
 
 
